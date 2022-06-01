@@ -1,7 +1,5 @@
-Human Face of Big Data - Development Environment
+Development Environment
 ==========
-Myeong Lee (myeong@umd.edu)
----------
 
 This folder has a Vagrantfile and Ansible scripts that automatically install PHP, PostgreSQL, Git, Apache, and other needed packages on Ubuntu Trusty for developing a Human Face of Big Data platform. If you see any problems, contact Myeong Lee. 
 
