@@ -4,12 +4,9 @@ Development Environment
 This folder has a Vagrantfile and Ansible scripts that automatically install PHP, PostgreSQL, Git, Apache, and other needed packages on Ubuntu Trusty for developing a Human Face of Big Data platform. If you see any problems, contact Myeong Lee. 
 
 # Requirements
-	- Virtualbox 5.1.6
-	- Vagrant 1.8.6
-	- Ansible 2.1.x (only for Mac or Linux. On Windows, you cannot run Ansible.)
-	- Python (2.x)
-
-As of November 2018, we're using Vagrant 2.2, Ansible 2.7, and VirtualBox 5.2.
+	- Virtualbox 6.1
+	- Vagrant 2.2.19
+	- Python
 
 # Quickstart
 
@@ -29,7 +26,7 @@ cd vm/mac 	# Go to the folder where Vagrantfile and other configuration files ar
 vagrant up		# Run the Vagrantfile.
 ```
 
-2. Open browser and go to location `http://192.168.33.12`
+2. Open browser and go to location `http://192.168.56.12`
 
 If the URL does not work check `vm/basic/Vagrantfile` and check file Vagrant configuration.
 
