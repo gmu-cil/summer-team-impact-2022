@@ -3,3 +3,4 @@
 .html\stip-ui\.angular
 .html\stip-ui\.vscode
 
+./html/stip-ui/.vscode/*
