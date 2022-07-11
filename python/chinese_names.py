@@ -17,6 +17,9 @@ EXCEL_LIMIT = 32767 - 2000
 # csv_file_path = r'C:\Users\yulez\Documents\STIP\data\refined_csv\refined_csv\A_persons.csv'
 dest_path = r'C:\Users\yulez\Documents\STIP\data'
 
+# init the Google API translator
+translator = Translator()
+
 
 chinese_ethnic_groups = [
     '汉族', '壮族', '回族', '满族', '维吾尔族', '苗族', '彝族', '土家族', '藏族', '蒙古族',
@@ -99,11 +102,13 @@ def get_chinese_events(row):
                 with open(file, 'r', encoding='utf-8') as input:
                     events = []
                     lines = input.readlines()
+                    count = 0
                     for index, line in enumerate(lines):
                         line = line.replace('\u2014', '-')
                         line = line.replace('\uff0c', ',')
                         if (index > 0):
                             if not re.match('^(——|——摘自|摘自)', line):
+
                                 if re.match('^[0-9]{4}', line):
                                     # print(row['chineseName'])
                                     # print(line)
@@ -112,8 +117,8 @@ def get_chinese_events(row):
                                     if (len(data) == 2):
                                         start_year = data[0][:-1]
                                         event = data[1]
-                                        event_o.event_id = 'E' + \
-                                            row['rightistId']
+                                        rightistId = row['rightistId']
+                                        event_o.event_id = f'E{rightistId}{count}'
                                         event_o.start_year = start_year
                                         event_o.event = event
                                         jsonString = event_o.toJSON()
@@ -121,6 +126,7 @@ def get_chinese_events(row):
                                     else:
                                         events.append(event_o.toJSON())
 
+                                    count += 1
                     return events
 
 
@@ -134,8 +140,6 @@ def get_chinese_memoirs(row):
                     memoir_counter = 0
                     lines = input.readlines()
                     for index, line in enumerate(lines):
-                        line = line.replace('\u2014', '-')
-                        line = line.replace('\uff0c', ',')
                         if index > 1:
                             # extract memoir
                             if (re.match("^[-]+$", line)):
@@ -168,8 +172,7 @@ def get_chinese_memoirs(row):
 
                                     while (len(result) > EXCEL_LIMIT):
 
-                                        memoir_o = Memoir('', '', '')
-
+                                        memoir_o = Memoir('', '')
                                         memoir_o.memoir_id = 'M' + \
                                             row['rightistId']
 
@@ -185,7 +188,7 @@ def get_chinese_memoirs(row):
                                                           EXCEL_LIMIT):]
 
                                         if (len(result) < EXCEL_LIMIT):
-                                            memoir_another = Memoir('', '', '')
+                                            memoir_another = Memoir('', '')
                                             memoir_another.memoir_id = 'M' + \
                                                 row['rightistId']
 
@@ -218,15 +221,15 @@ def translateColToChinese(csvFile, english_col_name, chinese_col_name):
         lambda x: translator.translate(x, dest='zh-cn').text)
 
 
+# def chineseJob():
+
+
 if __name__ == '__main__':
     ids = []
     names = []
     descriptions = []
     counter = 0
     index = 0
-
-    # init the Google API translator
-    translator = Translator()
 
     # os.chdir(next)
     # english_df = pd.read_csv('A_persons.csv')
@@ -263,4 +266,4 @@ if __name__ == '__main__':
     print(merged.head(50))
     print(merged.columns)
     # create a new CSV file
-    merged.to_csv(dest_path+"chinese_csv_file.csv")
+    merged.to_csv(dest_path + "\chinese_csv_file.csv", encoding='utf-8-sig')
