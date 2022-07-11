@@ -163,8 +163,8 @@ def get_chinese_memoirs(row):
 
                                     if (len(result) < EXCEL_LIMIT):
                                         memoir_another = Memoir('', '')
-                                        memoir_another.memoir_id = 'M' + \
-                                            row['rightistId']
+                                        rightistId = row['rightistId']
+                                        memoir_another.memoir_id = f'M{rightistId}{memoir_counter}'
                                         memoir_counter += 1
                                         memoir_another.memoir = result
                                         jsonString = memoir_another.toJSON()
@@ -173,8 +173,8 @@ def get_chinese_memoirs(row):
                                     while (len(result) > EXCEL_LIMIT):
 
                                         memoir_o = Memoir('', '')
-                                        memoir_o.memoir_id = 'M' + \
-                                            row['rightistId']
+                                        rightistId = row['rightistId']
+                                        memoir_another.memoir_id = f'M{rightistId}{memoir_counter}'
 
                                         base = result[:-
                                                       (len(result) - EXCEL_LIMIT)]
@@ -189,8 +189,8 @@ def get_chinese_memoirs(row):
 
                                         if (len(result) < EXCEL_LIMIT):
                                             memoir_another = Memoir('', '')
-                                            memoir_another.memoir_id = 'M' + \
-                                                row['rightistId']
+                                            rightistId = row['rightistId']
+                                            memoir_another.memoir_id = f'M{rightistId}{memoir_counter}'
 
                                             memoir_counter += 1
                                             memoir_another.memoir = result
@@ -230,23 +230,6 @@ if __name__ == '__main__':
     descriptions = []
     counter = 0
     index = 0
-
-    # os.chdir(next)
-    # english_df = pd.read_csv('A_persons.csv')
-    # os.chdir(other)
-    # refined = pd.read_csv('A_persons.csv')
-
-    # merged = pd.merge(
-    #     english_df, refined[['person_id', 'title', 'workplace']], on=['person_id'])
-    # # title
-    # merged['title'] = merged['title_y']
-    # merged = merged.drop('title_x', axis=1)
-    # merged = merged.drop('title_y', axis=1)
-
-    # # workplace
-    # merged['workplace'] = merged['workplace_y']
-    # merged = merged.drop('workplace_x', axis=1)
-    # merged = merged.drop('workplace_y', axis=1)
 
     os.chdir(source)
     merged = pd.read_csv('A_persons.csv').fillna(value="Unknown")

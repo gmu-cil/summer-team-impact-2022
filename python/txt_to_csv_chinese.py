@@ -132,7 +132,7 @@ def map(textfile):
 
                         if re.match('^[A-Z]{1}\s', sub):
                             split = re.split(' ', sub, 1)
-                            person.person_id = f"{split[0]}{count}"
+                            person.person_id = f"{folder}{count}"
                             # name_text = split[1]
                         else:
                             person.person_id = f"{folder}{count}"
@@ -157,7 +157,6 @@ def map(textfile):
                         # pass "reference section" until "memoir" -- check with string pattern "-------"
                         while not done and counter < len(lines):
                             target = lines[counter]
-
                             if not re.match("^[-]+", target):
                                 result += target
                             else:
