@@ -83,6 +83,25 @@ def get_chinese_description(row):
                             return line
 
 
+def get_chinese_job(row):
+    for file in os.listdir():
+        if (file.endswith('.txt')):
+            if row["chineseName"] in file:
+                with open(file, 'r', encoding="utf-8") as txt_file:
+                    jobInOrder = ""
+                    line = txt_file.readline()
+                    description = line.split('，')  # split by Chinese comma
+                    if len(description) > 1:
+                        jobInOrder = description[-1]
+                        jobInOrder.replace('\n', "")
+                    else:
+                        jobInOrder = "Unknown"
+
+                txt_file.close()
+
+                return jobInOrder
+
+
 def get_chinese_reference(row):
     for file in os.listdir():
         if (file.endswith('.txt')):
@@ -245,6 +264,8 @@ if __name__ == '__main__':
         lambda row: get_chinese_events(row), axis=1)
     merged['chinese_memoirs'] = merged.apply(
         lambda row: get_chinese_memoirs(row), axis=1)
+    merged['chinese_job'] = merged.apply(
+        lambda row: get_chinese_job(row), axis=1)
 
     translateColToChinese(merged, "gender", "chinese_gender")
     chineseEthnicity(merged, "ethnicity", "chinese_ethnicity")
@@ -252,5 +273,5 @@ if __name__ == '__main__':
     print(merged.head(50))
     print(merged.columns)
     # create a new CSV file
-    merged.to_csv(dest_path + "\chinese_csv_file.csv")
+    merged.to_csv(dest_path + "\chinese_csv_file.csv", encoding='utf-8-sig')
     # , encoding='utf-8-sig'
