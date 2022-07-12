@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import csv
 import os
 from googletrans import Translator
@@ -127,6 +128,8 @@ def get_chinese_events(row):
                                         events.append(event_o.toJSON())
 
                                     count += 1
+                    if events == [] or events == NULL:
+                        return "Unknown"
                     return events
 
 
@@ -197,6 +200,9 @@ def get_chinese_memoirs(row):
                                             jsonString = memoir_another.toJSON()
                                             memoirs.append(jsonString)
 
+                    if memoirs == [] or memoirs == NULL:
+                        return "Unknown"
+
                     return memoirs
 
 
@@ -219,9 +225,6 @@ def translateColToChinese(csvFile, english_col_name, chinese_col_name):
 
     csvFile[chinese_col_name] = csvFile[english_col_name].apply(
         lambda x: translator.translate(x, dest='zh-cn').text)
-
-
-# def chineseJob():
 
 
 if __name__ == '__main__':
@@ -249,4 +252,5 @@ if __name__ == '__main__':
     print(merged.head(50))
     print(merged.columns)
     # create a new CSV file
-    merged.to_csv(dest_path + "\chinese_csv_file.csv", encoding='utf-8-sig')
+    merged.to_csv(dest_path + "\chinese_csv_file.csv")
+    # , encoding='utf-8-sig'
